@@ -1,0 +1,67 @@
+{
+  "$schema": "https://biomejs.dev/schemas/2.5.7/schema.json",
+  "vcs": {
+    "enabled": true,
+    "clientKind": "git",
+    "useIgnoreFile": true
+  },
+  "files": {
+    "ignoreUnknown": true,
+    "includes": ["**", "!!**/dist", "!!**/node_modules", "!!**/coverage", "!**/*.min.js"]
+  },
+  "formatter": {
+    "enabled": true,
+    "indentStyle": "space",
+    "indentWidth": 2,
+    "lineWidth": 100,
+    "lineEnding": "lf"
+  },
+  "linter": {
+    "enabled": true,
+    "rules": {
+      "preset": "recommended",
+      "correctness": {
+        "noUnusedVariables": "error",
+        "noUnusedImports": "error",
+        "noUnusedFunctionParameters": "error",
+        "useExhaustiveDependencies": "warn"
+      },
+      "style": {
+        "useConst": "error",
+        "noParameterAssign": "error",
+        "useTemplate": "error",
+        "noUselessElse": "error",
+        "useImportType": "error",
+        "useExportType": "error"
+      },
+      "suspicious": {
+        "noExplicitAny": "warn",
+        "noConsole": "warn"
+      },
+      "complexity": {
+        "noForEach": "off",
+        "noExcessiveCognitiveComplexity": "warn"
+      }
+    }
+  },
+  "assist": {
+    "enabled": true,
+    "actions": {
+      "source": {
+        "organizeImports": "on"
+      }
+    }
+  },
+  "javascript": {
+    "formatter": {
+      "quoteStyle": "double",
+      "trailingCommas": "all",
+      "arrowParentheses": "asNeeded"
+    }
+  },
+  "json": {
+    "formatter": {
+      "indentWidth": 2
+    }
+  }
+}
