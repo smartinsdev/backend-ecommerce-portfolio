@@ -1,0 +1,6 @@
+{
+  "permissions": {
+    "allow": ["Edit(**/*.spec.ts)", "Write(**/*.spec.ts)"],
+    "ask": ["Edit(src/**)", "Write(src/**)"]
+  }
+}
