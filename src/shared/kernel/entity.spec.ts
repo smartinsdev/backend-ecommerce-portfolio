@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
-import { Entity } from "./entity";
-import { UniqueEntityId } from "./unique-entity-id";
+import { Entity } from "./entity.js";
+import { UniqueEntityId } from "./unique-entity-id.js";
 
 class Dummy extends Entity<{ label: string }> {
   static create(label: string, id?: UniqueEntityId) {

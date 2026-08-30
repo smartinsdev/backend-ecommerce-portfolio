@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { UniqueEntityId } from "./unique-entity-id";
+import { UniqueEntityId } from "./unique-entity-id.js";
 
 describe("UniqueEntityId", () => {
   it("generates a UUID when no value is provided", () => {

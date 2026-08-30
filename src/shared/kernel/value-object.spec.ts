@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { ValueObject } from "./value-object";
+import { ValueObject } from "./value-object.js";
 
 class Cents extends ValueObject<{ amount: number; currency: string }> {
   static create(amount: number, currency: string) {

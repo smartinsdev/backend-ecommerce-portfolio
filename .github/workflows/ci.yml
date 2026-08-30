@@ -43,7 +43,7 @@ jobs:
         run: pnpm ci
 
       - name: TypeScript type check
-        run: pnpm exec tsc --noEmit
+        run: pnpm exec tsc -p tsconfig.check.json
 
   build-and-test:
     name: Build & Test (Node ${{ matrix.node }})
