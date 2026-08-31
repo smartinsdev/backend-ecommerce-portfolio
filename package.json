@@ -12,7 +12,7 @@
     "ci": "biome ci .",
     "test": "vitest run",
     "test:watch": "vitest",
-    "validate": "biome check && tsc --noEmit"
+    "validate": "biome check && tsc -p tsconfig.check.json"
   },
   "license": "ISC",
   "devEngines": {
