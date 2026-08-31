@@ -11,10 +11,6 @@ describe("Email", () => {
     }
   });
 
-  /* 
-  O teste de normalização não é detalhe: se Ana@Loja.com e ana@loja.com virassem contas diferentes, o findByEmail do login falharia de forma silenciosa e intermitente.
-  */
-
   it("normalizes spaces and case", () => {
     const result = Email.create("   Ana@Brand.Com   ");
     expect(result.isRight()).toBe(true);
@@ -37,8 +33,8 @@ describe("Email", () => {
   it("considers two emails of equal value to be the same", () => {
     const a = Email.create("ana@brand.com");
     const b = Email.create("ANA@brand.com");
-    if (a.isRight() && b.isRight()) {
-      expect(a.value.equals(b.value)).toBe(true);
-    }
+    expect(a.isRight()).toBe(true);
+    expect(b.isRight()).toBe(true);
+    if (a.isRight() && b.isRight()) expect(a.value.equals(b.value)).toBe(true);
   });
 });
