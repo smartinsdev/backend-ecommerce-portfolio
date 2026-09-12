@@ -40,7 +40,7 @@ export const left = <L, R = never>(value: L): Either<L, R> => ({
  * @param {R} value - The success value to wrap.
  * @returns {Either<L, R>} The `Right` instance.
  */
-export const right = <L = never, R = unknown>(value: R): Either<L, R> => ({
+export const right = <R, L = never>(value: R): Either<L, R> => ({
   _tag: "Right",
   value,
 });
