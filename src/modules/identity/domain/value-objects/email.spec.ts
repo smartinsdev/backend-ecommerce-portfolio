@@ -1,4 +1,5 @@
 import { describe, expect, it } from "vitest";
+import { isLeft, isRight } from "../../../../shared/kernel/either.js";
 import { InvalidEmailError } from "../errors/invalid-email-error.js";
 import { Email } from "./email.js";
 
@@ -15,17 +16,17 @@ describe("Email", () => {
     "a@b.co",
   ])("accepts a valid address %j", raw => {
     const result = Email.create(raw);
-    expect(result.isRight()).toBe(true);
-    if (result.isRight()) {
-      expect(result.value.value).toBe(raw);
+    expect(isRight(result)).toBe(true);
+    if (isRight(result)) {
+      expect(result.value.address).toBe(raw);
     }
   });
 
   it("normalizes spaces and case", () => {
     const result = Email.create("   Ana@Brand.Com   ");
-    expect(result.isRight()).toBe(true);
-    if (result.isRight()) {
-      expect(result.value.value).toBe("ana@brand.com");
+    expect(isRight(result)).toBe(true);
+    if (isRight(result)) {
+      expect(result.value.address).toBe("ana@brand.com");
     }
   });
 
@@ -49,8 +50,8 @@ describe("Email", () => {
     `${"a".repeat(64)}@${"b".repeat(190)}.com`,
   ])("Rejects the invalid address %j", raw => {
     const result = Email.create(raw);
-    expect(result.isLeft()).toBe(true);
-    if (result.isLeft()) {
+    expect(isLeft(result)).toBe(true);
+    if (isLeft(result)) {
       expect(result.value).toBeInstanceOf(InvalidEmailError);
     }
   });
@@ -58,8 +59,8 @@ describe("Email", () => {
   it("considers two emails of equal value to be the same", () => {
     const a = Email.create("ana@brand.com");
     const b = Email.create("ANA@brand.com");
-    expect(a.isRight()).toBe(true);
-    expect(b.isRight()).toBe(true);
-    if (a.isRight() && b.isRight()) expect(a.value.equals(b.value)).toBe(true);
+    expect(isRight(a)).toBe(true);
+    expect(isRight(b)).toBe(true);
+    if (isRight(a) && isRight(b)) expect(a.value.equals(b.value)).toBe(true);
   });
 });
