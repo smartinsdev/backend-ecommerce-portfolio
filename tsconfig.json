@@ -5,6 +5,7 @@
     "lib": ["ES2024"],
     "module": "nodenext",
     "moduleResolution": "nodenext",
+    "noEmit": true,
     "strict": true,
     "noUncheckedIndexedAccess": true,
     "exactOptionalPropertyTypes": true,
@@ -16,14 +17,8 @@
     "moduleDetection": "force",
     "esModuleInterop": true,
     "resolveJsonModule": true,
-    "allowSyntheticDefaultImports": true,
-    "rootDir": "./src",
-    "outDir": "./dist",
-    "declaration": true,
-    "declarationMap": true,
-    "sourceMap": true,
     "incremental": true,
-    "tsBuildInfoFile": "./node_modules/.cache/tsc/.tsbuildinfo",
+    "tsBuildInfoFile": "./node_modules/.cache/tsc/editor.tsbuildinfo",
     "paths": {
       "@/*": ["./src/*"]
     },
@@ -32,5 +27,5 @@
     "types": ["node"]
   },
   "include": ["src/**/*"],
-  "exclude": ["node_modules", "dist", "**/*.test.ts", "**/*.spec.ts"]
+  "exclude": ["node_modules", "dist"]
 }
