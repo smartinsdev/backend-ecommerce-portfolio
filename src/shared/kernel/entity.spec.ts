@@ -8,6 +8,12 @@ class Dummy extends Entity<{ label: string }> {
   }
 }
 
+class Product extends Entity<{ name: string }> {
+  static create(name: string, id?: UniqueEntityId) {
+    return new Product({ name }, id);
+  }
+}
+
 describe("Entity", () => {
   it("automatically assigns an ID", () => {
     expect(Dummy.create("a").id).toBeInstanceOf(UniqueEntityId);
@@ -17,5 +23,10 @@ describe("Entity", () => {
     const id = new UniqueEntityId("same-id");
     expect(Dummy.create("a", id).equals(Dummy.create("b", id))).toBe(true);
     expect(Dummy.create("a").equals(Dummy.create("a"))).toBe(false);
+  });
+
+  it("should return false when comparing different entities with the same ID", () => {
+    const id = new UniqueEntityId("same-id");
+    expect(Dummy.create("a", id).equals(Product.create("b", id))).toBe(false);
   });
 });
