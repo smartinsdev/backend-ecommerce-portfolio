@@ -21,4 +21,28 @@ describe("PlainPassword", () => {
       expect(JSON.stringify(result.value)).not.toContain("SuperSecret123@");
     }
   });
+
+  it("rejects a password with no letter in it", () => {
+    const result = PlainPassword.create("12345678@");
+
+    expect(isLeft(result)).toBe(true);
+    if (isLeft(result)) {
+      expect(result.value).toBeInstanceOf(WeakPasswordError);
+    }
+  });
+
+  it("accepts a password whose only letters are uppercase", () => {
+    const result = PlainPassword.create("PASSWORD1@");
+
+    expect(isRight(result)).toBe(true);
+  });
+
+  it("rejects a password whose only letters fall outside the ASCII alphabet", () => {
+    const result = PlainPassword.create("пароль123@");
+
+    expect(isLeft(result)).toBe(true);
+    if (isLeft(result)) {
+      expect(result.value).toBeInstanceOf(WeakPasswordError);
+    }
+  });
 });

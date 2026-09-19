@@ -14,7 +14,8 @@ export class PlainPassword extends ValueObject<PlainPasswordProps> {
   }
 
   private static validate(raw: string): boolean {
-    return raw.length >= MIN_PASSWORD_LENGTH;
+    const hasLetters = /[a-zA-Z]/.test(raw);
+    return raw.length >= MIN_PASSWORD_LENGTH && hasLetters;
   }
 
   static create(raw: string): Either<WeakPasswordError, PlainPassword> {
