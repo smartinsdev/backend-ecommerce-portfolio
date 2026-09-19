@@ -55,4 +55,13 @@ describe("PlainPassword", () => {
       expect(inspect(result.value)).not.toContain("SuperSecret123@");
     }
   });
+
+  it("rejects a password with no digit in it", () => {
+    const result = PlainPassword.create("Password@");
+
+    expect(isLeft(result)).toBe(true);
+    if (isLeft(result)) {
+      expect(result.value).toBeInstanceOf(WeakPasswordError);
+    }
+  });
 });
