@@ -1,3 +1,4 @@
+import { inspect } from "node:util";
 import { describe, expect, it } from "vitest";
 import { isLeft, isRight } from "@/shared/kernel/either.js";
 import { WeakPasswordError } from "../errors/weak-password-error.js";
@@ -43,6 +44,15 @@ describe("PlainPassword", () => {
     expect(isLeft(result)).toBe(true);
     if (isLeft(result)) {
       expect(result.value).toBeInstanceOf(WeakPasswordError);
+    }
+  });
+
+  it("keeps the raw text out of the runtime inspection output", () => {
+    const result = PlainPassword.create("SuperSecret123@");
+
+    expect(isRight(result)).toBe(true);
+    if (isRight(result)) {
+      expect(inspect(result.value)).not.toContain("SuperSecret123@");
     }
   });
 });

@@ -7,6 +7,7 @@ interface PlainPasswordProps extends Record<string, unknown> {
 }
 
 const MIN_PASSWORD_LENGTH = 8;
+const REDACTED_MASK = "[REDACTED]";
 
 export class PlainPassword extends ValueObject<PlainPasswordProps> {
   private constructor(props: PlainPasswordProps) {
@@ -26,6 +27,10 @@ export class PlainPassword extends ValueObject<PlainPasswordProps> {
   }
 
   toJSON(): string {
-    return "[REDACTED]";
+    return REDACTED_MASK;
+  }
+
+  [Symbol.for("nodejs.util.inspect.custom")](): string {
+    return REDACTED_MASK;
   }
 }
