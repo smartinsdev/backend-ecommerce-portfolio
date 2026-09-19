@@ -14,14 +14,13 @@ export class PlainPassword extends ValueObject<PlainPasswordProps> {
     super(props);
   }
 
-  private static validate(raw: string): boolean {
-    const hasLetters = /[a-zA-Z]/.test(raw);
-    const hasDigit = /\d/.test(raw);
-    return raw.length >= MIN_PASSWORD_LENGTH && hasLetters && hasDigit;
-  }
-
   static create(raw: string): Either<WeakPasswordError, PlainPassword> {
-    if (!PlainPassword.validate(raw)) {
+    const hasMinLength = raw.length >= MIN_PASSWORD_LENGTH;
+    const hasLetters = /[a-zA-Z]/.test(raw);
+    const hasNumbers = /\d/.test(raw);
+    const isValid = hasMinLength && hasLetters && hasNumbers;
+
+    if (!isValid) {
       return left(new WeakPasswordError());
     }
     return right(new PlainPassword({ value: raw }));
