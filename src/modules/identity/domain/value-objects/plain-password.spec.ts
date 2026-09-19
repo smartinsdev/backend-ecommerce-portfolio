@@ -64,4 +64,13 @@ describe("PlainPassword", () => {
       expect(result.value).toBeInstanceOf(WeakPasswordError);
     }
   });
+
+  it("rejects a password whose only digits fall outside the ASCII range", () => {
+    const result = PlainPassword.create("Password٣@");
+
+    expect(isLeft(result)).toBe(true);
+    if (isLeft(result)) {
+      expect(result.value).toBeInstanceOf(WeakPasswordError);
+    }
+  });
 });
