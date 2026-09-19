@@ -1,5 +1,5 @@
-import { deepFreeze } from "@/utils/deep-freeze.js";
-import { isDeepEqual } from "@/utils/is-deep-equals.js";
+import { deepFreeze } from "../utils/deep-freeze.js";
+import { isDeepEqual } from "../utils/is-deep-equal.js";
 
 /**
  * Abstract base class for Value Objects in Domain-Driven Design (DDD).
