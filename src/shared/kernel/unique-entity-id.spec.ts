@@ -1,4 +1,5 @@
 import { describe, expect, it } from "vitest";
+import { InvariantError } from "./invariant-error.js";
 import { UniqueEntityId } from "./unique-entity-id.js";
 
 describe("UniqueEntityId", () => {
@@ -26,5 +27,10 @@ describe("UniqueEntityId", () => {
     const id1 = new UniqueEntityId("test-id");
     const id2 = new CustomEntityId("test-id");
     expect(id1.equals(id2)).toBe(false);
+  });
+
+  it("refuses an identity with no value", () => {
+    expect(() => new UniqueEntityId("")).toThrow(InvariantError);
+    expect(() => new UniqueEntityId("   ")).toThrow(InvariantError);
   });
 });

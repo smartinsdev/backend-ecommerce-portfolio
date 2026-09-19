@@ -1,4 +1,5 @@
 import { randomUUID } from "node:crypto";
+import { InvariantError } from "./invariant-error.js";
 
 /**
  * Represents a unique identifier for domain entities.
@@ -14,8 +15,13 @@ export class UniqueEntityId {
    * Creates an instance of `UniqueEntityId`.
    *
    * @param {string} [value] - An optional existing identifier string. Auto-generates a UUID v4 if omitted.
+   * @throws {InvariantError} When an explicit value is provided but holds no characters.
    */
   constructor(value?: string) {
+    if (value !== undefined && value.trim().length === 0) {
+      throw new InvariantError("A UniqueEntityId cannot be built from an empty value.");
+    }
+
     this.value = value ?? randomUUID();
   }
 
