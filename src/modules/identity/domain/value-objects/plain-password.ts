@@ -18,7 +18,8 @@ export class PlainPassword extends ValueObject<PlainPasswordProps> {
     const hasMinLength = raw.length >= MIN_PASSWORD_LENGTH;
     const hasLetters = /[a-zA-Z]/.test(raw);
     const hasNumbers = /\d/.test(raw);
-    const isValid = hasMinLength && hasLetters && hasNumbers;
+    const hasSpecialChars = /[!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?~` ]/.test(raw);
+    const isValid = hasMinLength && hasLetters && hasNumbers && hasSpecialChars;
 
     if (!isValid) {
       return left(new WeakPasswordError());

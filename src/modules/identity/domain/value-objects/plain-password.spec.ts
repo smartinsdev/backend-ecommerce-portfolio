@@ -73,4 +73,19 @@ describe("PlainPassword", () => {
       expect(result.value).toBeInstanceOf(WeakPasswordError);
     }
   });
+
+  it("rejects a password with no special character in it", () => {
+    const result = PlainPassword.create("Password1");
+
+    expect(isLeft(result)).toBe(true);
+    if (isLeft(result)) {
+      expect(result.value).toBeInstanceOf(WeakPasswordError);
+    }
+  });
+
+  it("accepts a passphrase whose only special character is a space", () => {
+    const result = PlainPassword.create("correct horse battery1");
+
+    expect(isRight(result)).toBe(true);
+  });
 });
