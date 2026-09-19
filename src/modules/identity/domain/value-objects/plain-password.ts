@@ -22,7 +22,7 @@ export class PlainPassword extends ValueObject<PlainPasswordProps> {
     const isValid = hasMinLength && hasLetters && hasNumbers && hasSpecialChars;
 
     if (!isValid) {
-      return left(new WeakPasswordError());
+      return left(new WeakPasswordError(MIN_PASSWORD_LENGTH));
     }
     return right(new PlainPassword({ value: raw }));
   }
