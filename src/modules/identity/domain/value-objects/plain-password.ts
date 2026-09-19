@@ -23,4 +23,8 @@ export class PlainPassword extends ValueObject<PlainPasswordProps> {
     }
     return right(new PlainPassword({ value: raw }));
   }
+
+  toJSON(): string {
+    return "[REDACTED]";
+  }
 }
