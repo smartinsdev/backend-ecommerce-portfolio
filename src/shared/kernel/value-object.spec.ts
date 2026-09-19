@@ -32,4 +32,8 @@ describe("ValueObject", () => {
     expect(Cents.create(100, "BRL").equals(null)).toBe(false);
     expect(Cents.create(100, "BRL").equals(undefined)).toBe(false);
   });
+
+  it("is not equal to a value object holding a different shape of props", () => {
+    expect(Cents.create(100, "BRL").equals(Sku.create("blue-shirt"))).toBe(false);
+  });
 });

@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { isLeft, isRight } from "../../../../shared/kernel/either.js";
+import { isLeft, isRight } from "@/shared/kernel/either.js";
 import { InvalidEmailError } from "../errors/invalid-email-error.js";
 import { Email } from "./email.js";
 
@@ -62,5 +62,14 @@ describe("Email", () => {
     expect(isRight(a)).toBe(true);
     expect(isRight(b)).toBe(true);
     if (isRight(a) && isRight(b)) expect(a.value.equals(b.value)).toBe(true);
+  });
+
+  it("keeps the rejected input out of the error message", () => {
+    const result = Email.create("attacker-payload@brand");
+
+    expect(isLeft(result)).toBe(true);
+    if (isLeft(result)) {
+      expect(result.value.message).not.toContain("attacker-payload");
+    }
   });
 });

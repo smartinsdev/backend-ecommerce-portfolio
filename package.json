@@ -1,11 +1,9 @@
 {
   "name": "backend-ecommerce-ddd-design",
   "version": "1.0.0",
-  "private": "true",
+  "private": true,
   "scripts": {
     "build": "tsc -p tsconfig.build.json && tsc-alias -p tsconfig.build.json",
-    "start": "node dist/index.js",
-    "dev": "node --experimental-transform-types --watch-path=./src src/index.ts",
     "lint": "biome check",
     "lint:fix": "biome check --write",
     "format": "biome format --write",

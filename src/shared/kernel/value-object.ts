@@ -1,5 +1,5 @@
-import { deepFreeze } from "@/utils/deep-freeze.js";
-import { isDeepEqual } from "@/utils/is-deep-equals.js";
+import { deepFreeze } from "../utils/deep-freeze.js";
+import { isDeepEqual } from "../utils/is-deep-equal.js";
 
 /**
  * Abstract base class for Value Objects in Domain-Driven Design (DDD).
@@ -31,7 +31,9 @@ export abstract class ValueObject<Props extends Record<string, unknown>> {
    * Compares the structural equality of this Value Object with another.
    * Checks for nullability, constructor identity, and deep property equality.
    *
-   * @param {ValueObject<Props> | null} [vo] - The target Value Object to compare.
+   * @param {ValueObject<Record<string, unknown>> | null} [vo] - The target Value Object to compare.
+   * Accepts any Value Object, so comparing unrelated types is a `false` at runtime rather than a
+   * compile error — mirroring `Entity.equals`.
    * @returns {boolean} `true` if both objects belong to the same class and have deeply equal properties, otherwise `false`.
    *
    * @example
@@ -53,7 +55,7 @@ export abstract class ValueObject<Props extends Record<string, unknown>> {
    * console.log(priceA.equals(priceB)); // true
    * ```
    */
-  equals(vo?: ValueObject<Props> | null): boolean {
+  equals(vo?: ValueObject<Record<string, unknown>> | null): boolean {
     if (vo === null || vo === undefined) return false;
     if (vo.constructor !== this.constructor) return false;
 

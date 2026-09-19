@@ -17,12 +17,14 @@ The architecture is intentionally built around:
 
 ## Current status
 
-- project scaffolding and architecture documentation are present
-- package scripts and TypeScript configuration are defined
-- source entrypoint exists at `src/index.ts`
-- domain and application implementation work is planned in `docs/architecture.md`
+- the Shared Kernel is in place: `Entity`, `UniqueEntityId`, `ValueObject`, `Either`, `DomainError`
+- `Identity & Access` is under construction, starting with its Value Objects
+- there is no HTTP server yet — Fastify and the composition root arrive with the `POST /sessions`
+  vertical slice, once `AuthenticateUser` is green
+- remaining work follows the plan in `docs/architecture.md`
 
-> Note: this repository is currently an initial project setup with design documentation. Implementation should follow the architecture plan in `docs/architecture.md`.
+> Note: the project is built test-first, module by module, domain before infrastructure. Scripts that
+> would run an application (`dev`, `start`) return when there is an application to run.
 
 ## Getting started
 
@@ -35,12 +37,6 @@ The architecture is intentionally built around:
 
 ```bash
 pnpm install
-```
-
-### Local development
-
-```bash
-pnpm dev
 ```
 
 ### Build

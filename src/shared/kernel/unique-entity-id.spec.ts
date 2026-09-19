@@ -1,4 +1,5 @@
 import { describe, expect, it } from "vitest";
+import { InvariantError } from "./invariant-error.js";
 import { UniqueEntityId } from "./unique-entity-id.js";
 
 describe("UniqueEntityId", () => {
@@ -15,5 +16,21 @@ describe("UniqueEntityId", () => {
   it("considers two IDs with the same value to be equal", () => {
     expect(new UniqueEntityId("a").equals(new UniqueEntityId("a"))).toBe(true);
     expect(new UniqueEntityId("a").equals(new UniqueEntityId("b"))).toBe(false);
+  });
+  it("returns false when comparing with null or undefined", () => {
+    const id = new UniqueEntityId("test-id");
+    expect(id.equals(null)).toBe(false);
+    expect(id.equals(undefined)).toBe(false);
+  });
+  it("returns false when comparing with a different type", () => {
+    class CustomEntityId extends UniqueEntityId {}
+    const id1 = new UniqueEntityId("test-id");
+    const id2 = new CustomEntityId("test-id");
+    expect(id1.equals(id2)).toBe(false);
+  });
+
+  it("refuses an identity with no value", () => {
+    expect(() => new UniqueEntityId("")).toThrow(InvariantError);
+    expect(() => new UniqueEntityId("   ")).toThrow(InvariantError);
   });
 });

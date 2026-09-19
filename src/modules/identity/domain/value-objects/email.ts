@@ -63,7 +63,7 @@ export class Email extends ValueObject<EmailProps> {
     const normalized = raw.trim().toLowerCase();
     const localPart = normalized.split("@")[0] ?? "";
     if (normalized.length > 254 || localPart.length > 64 || !EMAIL_PATTERN.test(normalized)) {
-      return left(new InvalidEmailError(raw));
+      return left(new InvalidEmailError());
     }
 
     return right(new Email({ value: normalized }));
