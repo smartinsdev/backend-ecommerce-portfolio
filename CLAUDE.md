@@ -15,9 +15,9 @@ Never mix. Use InvalidCredentialsError, not ErroDeCredencialInvalida.
 
 ## Context
 
-Architectural decisions are documented in docs/superpowers/specs/2026-08-05-backend-ecommerce-ddd-design.md and have already been made. Read them before commenting on structure. Do not reopen a decision without a new technical argument that only emerged during implementation — in that case, raise it.
+Architectural decisions are documented in docs/architecture.md and have already been made. Read them before commenting on structure. Do not reopen a decision without a new technical argument that only emerged during implementation — in that case, raise it.
 
-Stack: Node (pnpm) + TypeScript `strict`, Fastify, Prisma + PostgreSQL, Vitest, Zod, Biome, `tsx`.
+Stack: Node (pnpm) + TypeScript `strict` with native type stripping (`node --experimental-transform-types`), Fastify, Prisma + PostgreSQL, Vitest, Zod, Biome.
 
 ## Division of work (hard rule)
 

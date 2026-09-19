@@ -216,7 +216,7 @@ Three levels, with mass concentrated at the base:
 - **Integration** — Prisma repositories and technical adapters against real Postgres via Docker. Re-run cases already covered by the fake.
 - **E2E** (few, on money and access paths) — `app.inject()` from Fastify against the mounted application, real DB.
 
-Tooling: Vitest, `tsx`, TypeScript in `strict` mode, Zod for HTTP input validation, Biome for linting/formatting, `docker compose` for Postgres.
+Tooling: Vitest, Node native type stripping (`--experimental-transform-types`), TypeScript in `strict` mode, Zod for HTTP input validation, Biome for linting/formatting, `docker compose` for Postgres.
 
 ## 11. Out of scope
 
