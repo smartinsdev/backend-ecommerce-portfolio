@@ -1,3 +1,4 @@
+import { inspect } from "node:util";
 import { describe, expect, it } from "vitest";
 import { InvariantError } from "@/shared/kernel/invariant-error.js";
 import { PasswordHash } from "./password-hash.js";
@@ -21,5 +22,17 @@ describe("PasswordHash", () => {
     const stored = "$2b$12$C6UzMDM.H6dfI/f/IKcEeO1ZUvJ0eS2kZ4jXMTGcDhYCN.cpjuyWa";
 
     expect(PasswordHash.create(stored).equals(PasswordHash.create(stored))).toBe(true);
+  });
+
+  it("keeps the digest out of its serialised form", () => {
+    const stored = "$2b$12$C6UzMDM.H6dfI/f/IKcEeO1ZUvJ0eS2kZ4jXMTGcDhYCN.cpjuyWa";
+
+    expect(JSON.stringify(PasswordHash.create(stored))).not.toContain(stored);
+  });
+
+  it("keeps the digest out of the runtime inspection output", () => {
+    const stored = "$2b$12$C6UzMDM.H6dfI/f/IKcEeO1ZUvJ0eS2kZ4jXMTGcDhYCN.cpjuyWa";
+
+    expect(inspect(PasswordHash.create(stored))).not.toContain(stored);
   });
 });

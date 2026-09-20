@@ -1,13 +1,13 @@
 import { type Either, left, right } from "@/shared/kernel/either.js";
 import { ValueObject } from "@/shared/kernel/value-object.js";
 import { WeakPasswordError } from "../errors/weak-password-error.js";
+import { REDACTED_VALUE } from "./redacted-value.js";
 
 interface PlainPasswordProps extends Record<string, unknown> {
   value: string;
 }
 
 const MIN_PASSWORD_LENGTH = 8;
-const REDACTED_MASK = "[REDACTED]";
 
 export class PlainPassword extends ValueObject<PlainPasswordProps> {
   private constructor(props: PlainPasswordProps) {
@@ -28,10 +28,10 @@ export class PlainPassword extends ValueObject<PlainPasswordProps> {
   }
 
   toJSON(): string {
-    return REDACTED_MASK;
+    return REDACTED_VALUE;
   }
 
   [Symbol.for("nodejs.util.inspect.custom")](): string {
-    return REDACTED_MASK;
+    return REDACTED_VALUE;
   }
 }
