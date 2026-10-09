@@ -62,6 +62,22 @@ export class PasswordHash extends ValueObject<PasswordHashProps> {
   }
 
   /**
+   * Exposes the raw digest for infrastructure code that must persist or verify it.
+   *
+   * This is the only intentional way to read the underlying digest. It is meant
+   * for adapters such as the password hasher/comparer and the Prisma mapper.
+   * Callers must not log, serialize, or expose the returned value.
+   *
+   * Note that `toJSON()` and `util.inspect` remain redacted to prevent accidental
+   * disclosure through serialization and runtime inspection.
+   *
+   * @returns {string} The original password digest exactly as stored or produced.
+   */
+  get value(): string {
+    return this.props.value;
+  }
+
+  /**
    * Replaces the digest when the object is serialised.
    *
    * Invoked implicitly by `JSON.stringify`, which covers structured logging and
