@@ -16,4 +16,12 @@ describe("BcryptHasher", () => {
 
     expect(matches).toBe(true);
   });
+
+  it("refuses a password that differs from the one behind the digest only by case", async () => {
+    const hasher = new BcryptHasher();
+
+    const matches = await hasher.compare("str0ng-passw0rd", PasswordHash.create(STORED_DIGEST));
+
+    expect(matches).toBe(false);
+  });
 });
