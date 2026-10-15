@@ -8,9 +8,13 @@
     "lint:fix": "biome check --write",
     "format": "biome format --write",
     "ci": "biome ci .",
-    "test": "vitest run",
-    "test:watch": "vitest",
-    "validate": "biome check && tsc -p tsconfig.check.json"
+    "validate": "biome check && tsc -p tsconfig.check.json",
+    "test": "vitest --project unit",
+    "test:unit": "vitest run --project unit",
+    "test:integration": "vitest run --project integration",
+    "test:all": "vitest run",
+    "db:update": "prisma db update -y",
+    "db:test:update": "NODE_ENV=test prisma db update -y"
   },
   "license": "ISC",
   "devEngines": {
