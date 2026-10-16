@@ -7,7 +7,16 @@
   },
   "files": {
     "ignoreUnknown": true,
-    "includes": ["**", "!!**/dist", "!!**/node_modules", "!!**/coverage", "!**/*.min.js"]
+    "includes": [
+      "**",
+      "!!**/dist",
+      "!!**/node_modules",
+      "!!**/coverage",
+      "!**/*.min.js",
+      "!!**/migrations",
+      "!**/src/shared/infra/prisma/contract.d.ts",
+      "!**/src/shared/infra/prisma/contract.json"
+    ]
   },
   "formatter": {
     "enabled": true,

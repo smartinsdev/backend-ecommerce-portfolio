@@ -3,17 +3,19 @@ import type { UserRepository } from "@/modules/identity/domain/repositories/user
 import { Email } from "@/modules/identity/domain/value-objects/email.js";
 import { type Either, isLeft, left, right } from "@/shared/kernel/either.js";
 import type { HashComparer } from "../../ports/hash-comparer.js";
+import type { TokenSigner } from "../../ports/token-signer.js";
 
 export class AuthenticateUser {
   constructor(
     private readonly userRepository: UserRepository,
     private readonly hashComparer: HashComparer,
+    private readonly tokenSigner: TokenSigner,
   ) {}
 
   async execute(params: {
     email: string;
     password: string;
-  }): Promise<Either<InvalidCredentialsError, void>> {
+  }): Promise<Either<InvalidCredentialsError, { accessToken: string }>> {
     const emailResult = Email.create(params.email);
 
     if (isLeft(emailResult)) {
@@ -27,6 +29,8 @@ export class AuthenticateUser {
 
     if (!passwordMatch) return left(new InvalidCredentialsError());
 
-    return right(undefined);
+    const accessToken = await this.tokenSigner.sign({ sub: user.id.toValue() });
+
+    return right({ accessToken });
   }
 }

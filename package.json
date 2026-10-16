@@ -8,9 +8,13 @@
     "lint:fix": "biome check --write",
     "format": "biome format --write",
     "ci": "biome ci .",
-    "test": "vitest run",
-    "test:watch": "vitest",
-    "validate": "biome check && tsc -p tsconfig.check.json"
+    "validate": "biome check && tsc -p tsconfig.check.json",
+    "test": "vitest --project unit",
+    "test:unit": "vitest run --project unit",
+    "test:integration": "vitest run --project integration",
+    "test:all": "vitest run",
+    "db:update": "prisma db update -y",
+    "db:test:update": "NODE_ENV=test prisma db update -y"
   },
   "license": "ISC",
   "devEngines": {
@@ -23,9 +27,18 @@
   "type": "module",
   "devDependencies": {
     "@biomejs/biome": "^2.5.7",
+    "@types/bcrypt": "^6.0.0",
     "@types/node": "^26.1.2",
+    "prisma": "8.0.0-rc.22",
     "tsc-alias": "^1.9.1",
     "typescript": "^7.0.2",
     "vitest": "^4.1.10"
+  },
+  "dependencies": {
+    "@prisma/orm-postgres": "8.0.0-rc.17",
+    "bcrypt": "^6.0.0",
+    "dotenv": "^18.0.7",
+    "jose": "^6.2.12",
+    "zod": "^4.6.5"
   }
 }
