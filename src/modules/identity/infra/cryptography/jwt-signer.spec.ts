@@ -4,6 +4,11 @@ import { JwtSigner } from "./jwt-signer.js";
 
 const SECRET = "a-secret-only-these-tests-know";
 
+// A whole second on purpose: JWT dates are whole seconds (RFC 7519 §2), so
+// this instant survives the conversion without rounding.
+const NOW = new Date("2026-10-16T12:00:00Z");
+const clock = { now: () => NOW };
+
 // Reads the claims straight from the compact serialisation (RFC 7519) instead
 // of asking a JWT library: the token must be readable by any consumer that
 // speaks the standard, not only by the library that produced it.
@@ -23,7 +28,7 @@ function signatureFor(token: string, secret: string): string {
 
 describe("JwtSigner", () => {
   it("issues a token whose subject is the authenticated user", async () => {
-    const signer = new JwtSigner(SECRET);
+    const signer = new JwtSigner(SECRET, clock);
 
     const token = await signer.sign({ sub: "user-1" });
 
@@ -31,11 +36,28 @@ describe("JwtSigner", () => {
   });
 
   it("signs the token with the secret, so no one without it could have issued it", async () => {
-    const signer = new JwtSigner(SECRET);
+    const signer = new JwtSigner(SECRET, clock);
 
     const token = await signer.sign({ sub: "user-1" });
 
     const [, , signature] = token.split(".");
     expect(signature).toBe(signatureFor(token, SECRET));
+  });
+
+  it("keeps the token valid for fifteen minutes after it is issued", async () => {
+    const signer = new JwtSigner(SECRET, clock);
+
+    const token = await signer.sign({ sub: "user-1" });
+
+    const { iat, exp } = readClaims(token);
+    expect(exp).toBe(Number(iat) + 15 * 60);
+  });
+
+  it("dates the token from the instant the clock reports", async () => {
+    const signer = new JwtSigner(SECRET, clock);
+
+    const token = await signer.sign({ sub: "user-1" });
+
+    expect(readClaims(token)).toMatchObject({ iat: NOW.getTime() / 1000 });
   });
 });
