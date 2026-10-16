@@ -78,5 +78,60 @@ jobs:
       - name: Build
         run: pnpm build
 
-      - name: Run tests
-        run: pnpm test
+      - name: Run unit tests
+        run: pnpm test:unit
+
+  integration:
+    name: Integration (PostgreSQL)
+    runs-on: ubuntu-latest
+    needs: quality
+    timeout-minutes: 15
+
+    # Disposable database that lives only as long as this job. It starts before
+    # the checkout, so it cannot run docker/postgres/init: POSTGRES_DB creates
+    # the test database directly instead.
+    services:
+      postgres:
+        image: postgres:18-alpine
+        env:
+          POSTGRES_DB: identity_test
+          POSTGRES_USER: ci
+          POSTGRES_PASSWORD: ci
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U ci -d identity_test"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 10
+
+    # No .env.test exists here, so env.ts reads these straight from the process.
+    env:
+      NODE_ENV: test
+      DATABASE_URL: postgresql://ci:ci@localhost:5432/identity_test
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+        with:
+          persist-credentials: false
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 11
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v5
+        with:
+          node-version: 24
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Create the schema
+        run: pnpm db:test:update
+
+      - name: Run integration tests
+        run: pnpm test:integration
